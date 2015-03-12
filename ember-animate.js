@@ -103,7 +103,7 @@
                 return;
             }
 
-            if (!this.$el || this.isDestroyed) {
+            if (this.tagName !== '' && !this.$el || this.isDestroyed) {
 
                 if (this._animateOutCallbacks && this._animateOutCallbacks.length) {
                     for (i = 0; i < this._animateOutCallbacks.length; i ++) {
