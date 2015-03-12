@@ -23,7 +23,10 @@
 
             var self = this;
 
-            this.$el = this.$();
+            if (this.tagName !== '')
+                this.$el = this.$();
+            else
+                this.$el = null;
 
             this._transitionTo = this._transitionTo || this.transitionTo;
 
@@ -113,7 +116,7 @@
                 return _super.call(this);
             }
 
-            if (!this.$()) {
+            if (this.tagName == '' || !this.$()) {
                 this.$ = function () {
                     return this.$el;
                 }
