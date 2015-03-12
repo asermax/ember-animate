@@ -260,5 +260,25 @@
         })
 
     });
+    
+    Ember.OutletView.reopen({
+        setOutletState: function(state) {
+            if (!this._diffState(state)) {
+              var children = this._childOutlets;
+              for (var i = 0 ; i < children.length; i++) {
+                var child = children[i];
+                child.setOutletState(this._outletState && this._outletState.outlets[child._outletName]);
+              }
+            } else {
+              var view = this._buildView(this._outletState);
+
+              if (view) {
+                this.set('currentView', view);
+              } else {
+                this.set('currentView', null);
+              }
+            }
+          }
+    });
 
 })();
