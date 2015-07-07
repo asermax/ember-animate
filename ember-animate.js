@@ -40,8 +40,7 @@
 
                     if (!self.isDestroyed) {
 
-                        self.animateIn(function () {
-
+                        var afterAnimateIn = function () {
                             var i;
 
                             self.isAnimatingIn = false;
@@ -55,8 +54,14 @@
                             }
 
                             self._animateInCallbacks = null;
-
-                        });
+                        };
+                        
+                        if (Ember.testing) {
+                            // we don't need to animate shit on testing
+                            afterAnimateIn();
+                        } else {
+                            self.animateIn(afterAnimateIn);
+                        }
                     }
                 });
             }
@@ -125,8 +130,7 @@
             this.willAnimateOut();
             this.isAnimatingOut = true;
 
-            this.animateOut(function () {
-
+            var afterAnimateOut = function () {
                 this.isAnimatingOut = false;
                 this.hasAnimatedOut = true;
 
@@ -157,8 +161,14 @@
                 delete this.$el;
 
                 return this;
-
-            }.bind(this));
+            }.bind(this);
+            
+            if (Ember.testing) {
+                // we don't need to animate shit on testing
+                afterAnimateOut();
+            } else {
+                this.animateOut(afterAnimateOut);
+            }
 
             return this;
         }
